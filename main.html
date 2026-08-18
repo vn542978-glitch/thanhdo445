@@ -1,0 +1,965 @@
+﻿<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>thanhdo- Profile</title>
+  <style>
+    :root {
+      --bg: #fffaf6;
+      --bg-2: #fff2f0;
+      --panel: rgba(255, 255, 255, 0.9);
+      --line: rgba(127, 29, 29, 0.12);
+      --pink: #f43f5e;
+      --violet: #a855f7;
+      --cyan: #fbbf24;
+      --text: #2d110f;
+      --muted: #7b4a47;
+      --green: #dc2626;
+      --shadow: 0 18px 48px rgba(127, 29, 29, 0.08);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      color: var(--text);
+      background:
+        linear-gradient(rgba(255,255,255,0.72), rgba(255,255,255,0.72)),
+        url('https://cdn.pixabay.com/animation/2024/11/16/02/20/02-20-51-934_512.gif') center center / cover no-repeat fixed;
+      line-height: 1.6;
+    }
+    a { color: inherit; text-decoration: none; }
+    img { display: block; max-width: 100%; }
+    button { font: inherit; }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .topbar-inner {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 14px 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .brand {
+      font-weight: 900;
+      font-size: 2rem;
+      letter-spacing: 0.08em;
+      color: #111827;
+      text-shadow: none;
+    }
+    .brand small { font-size: 0.72em; color: var(--muted); }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 18px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .nav a {
+      color: var(--muted);
+      font-size: 0.95rem;
+      transition: color 0.2s ease;
+    }
+    .nav a:hover { color: var(--text); }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .lang {
+      display: inline-flex;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.02);
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 5px;
+    }
+    .lang button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      font-weight: 700;
+      padding: 7px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+    }
+    .lang .active {
+      background: linear-gradient(135deg, #ef4444, #f59e0b, #f43f5e);
+      color: white;
+    }
+
+    .icon-btn, .cta-btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.9);
+      color: var(--text);
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .icon-btn {
+      width: 42px; height: 42px; display: grid; place-items: center;
+      transition: all 0.2s ease;
+    }
+    .icon-btn.is-active {
+      background: linear-gradient(135deg, rgba(244,63,94,0.18), rgba(251,191,36,0.22));
+      color: var(--pink);
+      border-color: rgba(244,63,94,0.2);
+      box-shadow: 0 10px 22px rgba(244,63,94,0.12);
+    }
+    .cta-btn {
+      background: linear-gradient(135deg, #dc2626, #f59e0b, #f43f5e);
+      color: white;
+      padding: 12px 18px;
+      box-shadow: 0 12px 28px rgba(220, 38, 38, 0.18);
+    }
+
+    .page-shell {
+      max-width: 1220px;
+      margin: 0 auto;
+      padding: 28px 20px 40px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      align-items: center;
+      gap: 26px;
+      padding: 24px 0 20px;
+    }
+
+    .hero-copy {
+      display: grid;
+      gap: 16px;
+    }
+
+    .eyebrow {
+      color: var(--cyan);
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+      font-weight: 800;
+    }
+
+    .eyebrow.cyberpunk-text {
+      font-size: 2.5rem;
+      font-weight: 900;
+      letter-spacing: 0.25em;
+      color: #ffffff;
+      text-shadow: 
+        0 0 10px #f43f5e,
+        0 0 20px #f43f5e,
+        0 0 30px #f43f5e,
+        0 0 40px #f43f5e;
+      animation: cyberpunk-glow 2s ease-in-out infinite;
+    }
+
+    @keyframes cyberpunk-glow {
+      0%, 100% {
+        text-shadow: 
+          0 0 10px #f43f5e,
+          0 0 20px #f43f5e,
+          0 0 30px #f43f5e,
+          0 0 40px #f43f5e;
+      }
+      50% {
+        text-shadow: 
+          0 0 20px #f43f5e,
+          0 0 30px #f43f5e,
+          0 0 40px #f43f5e,
+          0 0 60px #f43f5e,
+          0 0 80px #f43f5e;
+      }
+    }
+
+    .hero h1 {
+      margin: 0;
+      font-size: clamp(2.8rem, 5vw, 5rem);
+      line-height: 1.05;
+      letter-spacing: -0.07em;
+    }
+    .hero h1 .accent {
+      color: #d62828;
+      text-shadow: 0 0 20px rgba(244,63,94,0.38);
+    }
+
+    .lead {
+      margin: 0;
+      color: var(--muted);
+      font-size: 1.15rem;
+      max-width: 650px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      margin-top: 8px;
+    }
+
+    .primary-btn, .secondary-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 15px 22px;
+      border-radius: 14px;
+      font-weight: 800;
+      border: 1px solid var(--line);
+      transition: transform 0.2s ease;
+    }
+    .primary-btn {
+      background: linear-gradient(135deg, #ef4444, #f59e0b, #ec4899);
+      color: white;
+      box-shadow: 0 18px 36px rgba(239, 68, 68, 0.22);
+    }
+    .secondary-btn {
+      background: rgba(255,255,255,0.72);
+      color: var(--text);
+    }
+    .primary-btn:hover, .secondary-btn:hover, .cta-btn:hover, .icon-btn:hover, .link-btn:hover, .discord-btn:hover {
+      transform: translateY(-2px);
+    }
+
+    .profile-card {
+      background: linear-gradient(180deg, #ffffff 0%, #f9fafc 100%);
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      padding: 16px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .profile-view {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      z-index: 3;
+    }
+
+    .view-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(29, 15, 18, 0.72);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 700;
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(4px);
+    }
+
+    .avatar-wrap {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      aspect-ratio: 4 / 5;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+    }
+    .avatar-wrap img {
+      width: 100%; height: 100%; object-fit: cover;
+      filter: saturate(1.08) contrast(1.04);
+    }
+
+    .profile-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-top: 16px;
+      color: var(--muted);
+      font-size: 0.9rem;
+    }
+    .view-pill, .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border-radius: 999px;
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+    }
+    .status-pill {
+      color: var(--green);
+      background: rgba(74,222,128,0.08);
+      border-color: rgba(74,222,128,0.2);
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.35fr 0.65fr;
+      gap: 22px;
+      margin-top: 18px;
+    }
+
+    .section-card {
+      background: linear-gradient(180deg, rgba(255,255,255,0.96) 0%, rgba(255,246,240,0.95) 100%);
+      border: 1px solid rgba(127, 29, 29, 0.08);
+      border-radius: 28px;
+      padding: 26px;
+      box-shadow: 0 18px 44px rgba(127, 29, 29, 0.04);
+    }
+    .full-span { grid-column: 1 / -1; }
+
+    .section-heading {
+      margin-bottom: 18px;
+    }
+    .section-heading h2 {
+      margin: 0 0 6px;
+      font-size: clamp(1.5rem, 2vw, 2.2rem);
+      letter-spacing: -0.04em;
+    }
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.96rem;
+    }
+
+    .about-wrap {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 20px;
+      align-items: stretch;
+    }
+
+    .terminal {
+      background: #f8fafc;
+      border: 1px solid rgba(15, 23, 42, 0.07);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+    .terminal-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: #f2f5f9;
+      padding: 12px 14px;
+      border-bottom: 1px solid rgba(15, 23, 42, 0.05);
+    }
+    .dot {
+      width: 10px; height: 10px; border-radius: 50%; display: inline-block;
+    }
+    .dot.red { background: #ff5f56; }
+    .dot.yellow { background: #ffbd2e; }
+    .dot.green { background: #27c93f; }
+
+    .terminal-body {
+      padding: 18px 18px 20px;
+      color: #1f2937;
+      font-size: 0.99rem;
+      line-height: 1.7;
+    }
+    .terminal-body strong { color: #111827; }
+    .terminal-body p { margin: 0 0 12px; }
+
+    .about-note {
+      padding: 18px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(244,63,94,0.07), rgba(251,191,36,0.08));
+      border: 1px solid rgba(127,29,29,0.06);
+      color: var(--muted);
+    }
+
+    .ranking-box {
+      display: grid;
+      gap: 18px;
+    }
+    .segment {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px;
+      background: #f9fafc;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      width: fit-content;
+    }
+    .segment button {
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .segment .active {
+      background: linear-gradient(135deg, rgba(244,63,94,0.17), rgba(251,191,36,0.18));
+      color: var(--text);
+      border: 1px solid rgba(127,29,29,0.04);
+    }
+    .empty-message {
+      color: var(--muted);
+      font-size: 1.05rem;
+      padding: 12px 0 0;
+    }
+    .link-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      padding: 12px 18px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-weight: 700;
+    }
+
+    .donate-box {
+      display: grid;
+      gap: 18px;
+      background: linear-gradient(180deg, #f8fafc 0%, #ffffff 100%);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 18px;
+    }
+    .mini-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 800;
+    }
+    .mini-logo {
+      display: inline-grid;
+      place-items: center;
+      width: 34px; height: 34px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, var(--pink), var(--violet));
+      color: white;
+      font-size: 0.82rem;
+    }
+    .donate-card {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 16px;
+      align-items: center;
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+    }
+    .qrcode {
+      aspect-ratio: 1;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      display: grid; place-items: center;
+      background: linear-gradient(135deg, #f7f9ff, #eef7ff);
+      color: var(--text);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 0.8rem;
+    }
+
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .project-tile {
+      position: relative;
+      min-height: 170px;
+      border: 1px solid rgba(127, 29, 29, 0.08);
+      border-radius: 20px;
+      background: linear-gradient(135deg, rgba(244,63,94,0.10), rgba(251,191,36,0.10));
+      overflow: hidden;
+      display: flex;
+      align-items: end;
+      padding: 18px;
+      color: var(--text);
+      font-weight: 800;
+    }
+    .project-tile::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(160deg, rgba(255,255,255,0.12), transparent 42%, rgba(0,0,0,0.18));
+    }
+    .project-tile span {
+      position: relative; z-index: 1;
+    }
+
+    .community-card {
+      display: grid;
+      gap: 18px;
+    }
+    .community-banner {
+      position: relative;
+      min-height: 180px;
+      border-radius: 20px;
+      overflow: hidden;
+      border: 1px solid rgba(127, 29, 29, 0.08);
+      background: linear-gradient(135deg, rgba(251,191,36,0.18), rgba(244,63,94,0.15));
+    }
+    .community-banner::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 20% 20%, rgba(255,255,255,0.18), transparent 28%);
+    }
+    .community-banner-inner {
+      position: relative; z-index: 1;
+      min-height: 180px;
+      display: flex;
+      align-items: end;
+      padding: 18px;
+    }
+    .community-badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 8px 12px;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px solid rgba(15, 23, 42, 0.06);
+      border-radius: 999px;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .community-name {
+      margin-top: 8px;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+    }
+
+    .community-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 12px;
+    }
+    .community-list li {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+    .community-list b {
+      width: 34px; height: 34px; border-radius: 10px;
+      display: inline-grid; place-items: center;
+      color: var(--pink);
+      background: rgba(255,122,217,0.12);
+      font-size: 0.9rem;
+    }
+
+    .discord-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: fit-content;
+      background: linear-gradient(135deg, #5865f2, #7289da);
+      color: white;
+      border-radius: 14px;
+      font-weight: 800;
+      padding: 14px 18px;
+      box-shadow: 0 18px 32px rgba(88,101,242,0.26);
+    }
+
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+    .filter-btn {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.8);
+      color: var(--muted);
+      border-radius: 999px;
+      padding: 9px 14px;
+      cursor: pointer;
+      font-weight: 700;
+    }
+    .filter-btn.active {
+      background: linear-gradient(135deg, rgba(244,63,94,0.16), rgba(251,191,36,0.12));
+      color: var(--text);
+      border-color: rgba(127,29,29,0.04);
+    }
+
+    .skills-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+    .skill-card {
+      background: #ffffff;
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px;
+      display: grid;
+      gap: 12px;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.02);
+    }
+    .skill-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+    .skill-name {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+    }
+    .skill-icon {
+      width: 38px; height: 38px; border-radius: 12px;
+      display: inline-grid; place-items: center;
+      background: linear-gradient(135deg, rgba(244,63,94,0.12), rgba(251,191,36,0.12));
+      border: 1px solid rgba(127, 29, 29, 0.04);
+    }
+    .skill-value {
+      color: var(--muted);
+      font-weight: 700;
+    }
+    .progress {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      overflow: hidden;
+    }
+    .progress span {
+      display: block;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--pink), var(--cyan));
+    }
+
+    .contact-list {
+      display: grid;
+      gap: 14px;
+    }
+    .contact-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 14px 16px;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.02);
+    }
+    .contact-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .contact-icon {
+      width: 42px; height: 42px; border-radius: 12px;
+      display: inline-grid; place-items: center;
+      background: linear-gradient(135deg, rgba(255,122,217,0.18), rgba(139,92,246,0.18));
+      border: 1px solid rgba(255,255,255,0.06);
+      color: white;
+    }
+    .contact-item small {
+      display: block;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+
+    footer {
+      padding-top: 30px;
+      text-align: center;
+      color: var(--muted);
+      border-top: 1px solid var(--line);
+      margin-top: 26px;
+      font-size: 0.95rem;
+    }
+
+    @media (max-width: 980px) {
+      .hero, .content-grid, .about-wrap, .donate-card { grid-template-columns: 1fr; }
+      .skills-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      .page-shell { padding-left: 14px; padding-right: 14px; }
+      .topbar-inner { justify-content: center; }
+      .nav { width: 100%; }
+      .project-grid, .skills-grid { grid-template-columns: 1fr; }
+      .section-card { padding: 18px; }
+      .hero h1 { font-size: 2.6rem; }
+      .brand { font-size: 1.6rem; }
+      .cta-btn { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <a href="#hero" class="brand" aria-label="Trang chủ"></a>
+
+      <nav class="nav" aria-label="Điều hướng chính">
+        <a href="#hero">Trang chủ</a>
+        <a href="#about">Giới thiệu</a>
+        <a href="#donate">Ủng hộ</a>
+        <a href="#skills">Kỹ năng</a>
+        <a href="#contact">Liên hệ</a>
+      </nav>
+
+      <div class="top-actions">
+        <div class="lang" aria-label="Ngôn ngữ">
+          <button class="active" type="button">VI</button>
+          <button type="button">EN</button>
+        </div>
+        <button class="icon-btn" type="button" aria-label="Đổi giao diện">☼</button>
+        <button id="musicToggle" class="icon-btn" type="button" aria-label="Bật nhạc" aria-pressed="false">♫</button>
+        <button class="cta-btn" type="button">Contact</button>
+      </div>
+    </div>
+  </header>
+
+  <audio id="bgMusic" loop preload="auto" src="file:///C:/Users/TP/Downloads/ornave-chill-lamp-light-553405.mp3"></audio>
+
+  <main class="page-shell">
+    <section class="hero" id="hero">
+      <div class="hero-copy">
+        <div class="eyebrow cyberpunk-text">Thành Đô Cyber</div>
+        <p class="lead">Đây Là Tổng Hợp Các Trang Cá Nhân Của Mình </p>
+
+        <div class="hero-actions">
+          <a class="primary-btn" href="#skills">Xem kỹ năng</a>
+          <a class="secondary-btn" href="#contact">Liên hệ</a>
+        </div>
+      </div>
+
+      <div class="profile-card" aria-label="Profile preview">
+        <div class="avatar-wrap">
+          <div class="profile-view">
+            <span class="view-pill"><span>👁</span> <span id="viewCount">0</span></span>
+          </div>
+          <img src="https://i.pinimg.com/originals/9a/09/85/9a0985904bf1cca3be1a90010fa81ff1.gif" alt="Nyx_ profile" />
+        </div>
+      </div>
+    </section>
+
+    <section class="content-grid">
+      <div class="section-card full-span" id="about">
+        <div class="section-heading">
+          <h2>Đôi Nét Về Tôi</h2>
+          <p>Một chút về mình.</p>
+        </div>
+
+        <div class="about-wrap">
+          <div class="terminal">
+            <div class="terminal-bar">
+            
+            </div>
+            <div class="terminal-body">
+              <p><strong>Thành Đô</strong></p>
+              <p><strong>Về Mình</strong></p>
+              <p>Xin chào! Tôi là một nhà sáng tạo nội dung. Đây là đam mê của tôi, và tôi thích làm những nội dung hài hước, vui vẻ.Các bạn có thể ghé qua trang YouTube hoặc TikTok để ủng hộ mình nhé. Mình cảm ơn các bạn rất nhiều ạ </p>
+            </div>
+          </div>
+
+          <div class="about-note">
+            <p>Mình là Người Khá Thân Thiện Thích Ăn Bánh Bao , Thích Được Lowky , Muốn Được Viewer Vui Vẻ.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card full-span" id="zypage-ranking">
+        <div class="section-heading">
+          <h2>Zypage</h2>
+        </div>
+          <div class="segment" aria-label="Selector">
+          </div>
+          <a class="link-btn" href="https://zypage.com/shinykingshinysilver" target="_blank" rel="noreferrer">Mở trang ZyPage</a>
+        </div>
+      </div>
+
+      <div class="section-card full-span" id="donate">
+        <div class="section-heading">
+          <h2>Donet Cho Thành Đô</h2>
+        </div>
+
+        <div class="donate-box">
+          <div class="mini-brand"><span class="mini-logo">Z</span> Zypage</div>
+          <div class="donate-card">
+            <div>
+              <h3>Hãy dnt cho mình để mua được PC mới</h3>
+              <p style="margin-top:10px; color: var(--muted);">Quét mã để có thể góp gạo nuôi Anh</p>
+            </div>
+            <div class="qrcode">QR</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section-card full-span" id="skills">
+        <div class="section-heading">
+          <h2>Kỹ năng & Công nghệ</h2>
+          <p>Những công nghệ tôi sử dụng để biến ý tưởng thành sản phẩm.</p>
+        </div>
+
+        <div class="filter-bar" aria-label="Lọc kỹ năng">
+          <button type="button" class="filter-btn active">Tất cả</button>
+        </div>
+
+        <div class="skills-grid">
+          <article class="skill-card">
+            <div class="skill-head">
+              <div class="skill-name"><span class="skill-icon">🎬</span><span>EDITOR CONTENT CREATOR</span></div>
+              <span class="skill-value">30%</span>
+            </div>
+            <div class="progress"><span style="width:30%"></span></div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-head">
+              <div class="skill-name"><span class="skill-icon">🎯</span><span>1.000.000 Subscribe</span></div>
+              <span class="skill-value">0.3%</span>
+            </div>
+            <div class="progress"><span style="width:0.3%"></span></div>
+          </article>
+
+          <article class="skill-card">
+            <div class="skill-head">
+              <div class="skill-name"><span class="skill-icon">🟫</span><span>Minecraft</span></div>
+              <span class="skill-value">20%</span>
+            </div>
+            <div class="progress"><span style="width:20%"></span></div>
+          </article>
+        </div>
+      </div>
+
+      <div class="section-card full-span" id="contact">
+        <div class="section-heading">
+          <h2>Liên hệ Thành Đô</h2>
+        </div>
+
+        <div class="contact-list">
+          <a class="contact-item" href="https://www.tiktok.com/@nyx_mci" target="_blank" rel="noreferrer">
+            <div class="contact-left">
+              <span class="contact-icon">♪</span>
+              <div><strong>Tiktok</strong><small>@nyx_mci</small></div>
+            </div>
+            <span>→</span>
+          </a>
+
+          <a class="contact-item" href="https://zypage.com/nyxmci" target="_blank" rel="noreferrer">
+            <div class="contact-left">
+              <span class="contact-icon">Z</span>
+              <div><strong>Zypage</strong><small>zypage.com/nyxmci</small></div>
+            </div>
+            <span>→</span>
+          </a>
+
+          <a class="contact-item" href="https://discord.gg/7tHXBZrTkX" target="_blank" rel="noreferrer">
+            <div class="contact-left">
+              <span class="contact-icon">D</span>
+              <div><strong>Discord</strong><small>nyx_mci</small></div>
+            </div>
+            <span>→</span>
+          </a>
+
+          <a class="contact-item" href="https://guns.lol/nyx_0" target="_blank" rel="noreferrer">
+            <div class="contact-left">
+              <span class="contact-icon">G</span>
+              <div><strong>Gunslol</strong><small>guns.lol/nyx_0</small></div>
+            </div>
+            <span>→</span>
+          </a>
+
+          <a class="contact-item" href="https://www.youtube.com/@CyoG7" target="_blank" rel="noreferrer">
+            <div class="contact-left">
+              <span class="contact-icon">▶</span>
+              <div><strong>Youtube</strong><small>youtube.com/@CyoG7</small></div>
+            </div>
+            <span>→</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © 2026 Thành Đô Được xây dựng bằng đam mê và ước Mơ !!!
+    </footer>
+  </main>
+
+  <script>
+    (function () {
+      const countKey = 'thanhdo_profile_count';
+      const seenKey = 'thanhdo_profile_seen';
+      const countEl = document.getElementById('viewCount');
+
+      if (!countEl) return;
+
+      const storedCount = Number(localStorage.getItem(countKey)) || 0;
+      const hasSeen = localStorage.getItem(seenKey) === '1';
+
+      if (!hasSeen) {
+        const nextCount = storedCount + 1;
+        localStorage.setItem(countKey, String(nextCount));
+        localStorage.setItem(seenKey, '1');
+        countEl.textContent = String(nextCount);
+      } else {
+        countEl.textContent = String(storedCount || 0);
+      }
+    })();
+
+    (function () {
+      const audio = document.getElementById('bgMusic');
+      const toggle = document.getElementById('musicToggle');
+
+      if (!audio || !toggle) return;
+
+      const setState = (isPlaying) => {
+        toggle.classList.toggle('is-active', isPlaying);
+        toggle.setAttribute('aria-pressed', String(isPlaying));
+        toggle.setAttribute('aria-label', isPlaying ? 'Tắt nhạc' : 'Bật nhạc');
+        toggle.textContent = isPlaying ? '❚❚' : '♫';
+      };
+
+      const playMusic = async () => {
+        try {
+          audio.volume = 0.4;
+          await audio.play();
+          setState(true);
+        } catch (error) {
+          setState(false);
+        }
+      };
+
+      toggle.addEventListener('click', async () => {
+        if (audio.paused) {
+          await playMusic();
+        } else {
+          audio.pause();
+          setState(false);
+        }
+      });
+
+      // Auto-play on page load
+      window.addEventListener('load', () => {
+        playMusic();
+      });
+    })();
+  </script>
+</body>
+</html>
